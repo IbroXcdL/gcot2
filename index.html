@@ -609,30 +609,41 @@
             <!--SCRIPT FOR NOTIFICATION TO APPEAR/DISAPPEAR-->
 
             <script>
-           async function checkNotification() {
+  async function checkNotification() {
   try {
     const response = await fetch('notification.json?cacheBust=' + Date.now());
     const data = await response.json();
-    const dot = document.getElementById('notifDot');
-    const seen = localStorage.getItem('notifSeen');
 
-    if (data.hasNewNotification && !seen) {
+    const dot = document.getElementById('notifDot');
+    const seenVersion = localStorage.getItem('notifSeenVersion');
+
+    if (data.hasNewNotification && data.notificationVersion != seenVersion) {
       dot.style.display = 'block';
+      dot.classList.add('glow'); // optional glow effect
     } else {
       dot.style.display = 'none';
+      dot.classList.remove('glow');
     }
   } catch (err) {
     console.error('Error checking notification:', err);
   }
 }
 
-// When user clicks the bell, mark as seen
-document.getElementById('notifLink').addEventListener('click', () => {
-  localStorage.setItem('notifSeen', 'true');
-  document.getElementById('notifDot').style.display = 'none';
+// When user clicks the bell, mark this version as seen
+document.getElementById('notifLink').addEventListener('click', async () => {
+  try {
+    const response = await fetch('notification.json?cacheBust=' + Date.now());
+    const data = await response.json();
+    localStorage.setItem('notifSeenVersion', data.notificationVersion);
+    const dot = document.getElementById('notifDot');
+    dot.style.display = 'none';
+    dot.classList.remove('glow');
+  } catch (err) {
+    console.error('Error marking notification as seen:', err);
+  }
 });
 
-// Check right away and every 15 seconds
+// Initial check and repeat every 15 seconds
 checkNotification();
 setInterval(checkNotification, 15000);
             </script>
@@ -640,3 +651,4 @@ setInterval(checkNotification, 15000);
 
 
 </html>
+
