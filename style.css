@@ -1233,6 +1233,9 @@ to bottom right,
 }
 NOTIFICATION RED DOT CSS END*/
 
+
+/*Notification org red dot*/
+
 .notification-link {
   position: relative;
   display: inline-block;
@@ -1240,12 +1243,24 @@ NOTIFICATION RED DOT CSS END*/
 
 .notification-dot {
   position: absolute;
-  top: -4px;   /* adjust vertically */
-  right: 10px; /* adjust horizontally */
+  top: -4px;
+  right: 10px;
   width: 6px;
   height: 6px;
   background-color: red;
   border-radius: 50%;
-  border: 2px solid white; /* clean border around dot */
+  border: 2px solid white;
 }
+
+.notification-dot.glow {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.6; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+
 
