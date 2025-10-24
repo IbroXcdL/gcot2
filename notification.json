@@ -1,1 +1,5 @@
-{ "hasNewNotification": true }
+{
+  "hasNewNotification": true,
+  "notificationVersion": 1,
+  "message": "Check out the latest update!" 
+}
